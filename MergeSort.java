@@ -5,7 +5,7 @@ import java.util.stream.IntStream;
 public class MergeSort {
 
     private static final Random RNG    = new Random(10982755L);
-    private static final int    LENGTH = 1024000;
+    private static final int    LENGTH = 8192000;
 
     public static void main(String... args) {
         int[] arr = randomIntArray();
@@ -21,7 +21,7 @@ public class MergeSort {
 
     public static void concurrentMergeSort(int[] arr) {
         // int threads = Runtime.getRuntime().availableProcessors();
-        int threads = 1;
+        int threads = 4;
         concurrentMergeSort(arr, threads);
     }
 
@@ -84,15 +84,6 @@ public class MergeSort {
         }
     }
 
-    // Swaps the values at the two given indexes in the given array
-    public static final void swap(int[] a, int i, int j) {
-        if (i != j) {
-            int temp = a[i];
-            a[i] = a[j];
-            a[j] = temp;
-        }
-    }
-
     private static int[] randomIntArray() {
         int[] arr = new int[LENGTH];
         for (int i = 0; i < arr.length; i++)
@@ -101,6 +92,9 @@ public class MergeSort {
     }
 
     public static boolean sorted(int[] arr) {
+        if (arr == null){
+            return false;
+        }
         return !IntStream.range(1, arr.length)
                 .mapToObj(i -> arr[i - 1] > arr[i])
                 .findFirst().orElse(false);
